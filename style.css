@@ -1,0 +1,19 @@
+html, *{
+    box-sizing: border-box;
+}
+
+.game {
+    display: flex;
+    max-width: 125px;
+    flex-flow: row wrap;
+}
+
+.cell {
+    width: 25px;
+    height: 25px;
+    border: .5px solid #333;
+}
+
+.cell.alive {
+    background-color: #333;
+}
