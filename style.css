@@ -4,7 +4,7 @@ html, *{
 
 .game {
     display: flex;
-    max-width: 125px;
+    max-width: 1250px;
     flex-flow: row wrap;
 }
 

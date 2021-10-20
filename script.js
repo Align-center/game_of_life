@@ -4,11 +4,11 @@ document.addEventListener('DOMContentLoaded', function loaded () {
 
     
     var matrix = {
-        width: 5,
-        height: 5
+        width: 50,
+        height: 50
     };
     var grid = [];
-    var nextGrid = [];
+    var nextGrid;
     const game = document.querySelector('.game');
     const next = document.querySelector('.next');
 
@@ -20,24 +20,45 @@ document.addEventListener('DOMContentLoaded', function loaded () {
 
             for (let j = 0; j < matrix.height; j++) {
 
-                let cell = document.createElement('div');
-                cell.className = 'cell';
-                cell.dataset.posX = i;
-                cell.dataset.posY = j;
-                cell.dataset.index = count;
+                let node = {
+                    index: count,
+                    pos: {
+                        x: i,
+                        y: j
+                    },
+                    isAlive: false
+                };
 
-                if (i == 2 && j == 2 || i == 1 && j == 1) {
-                    cell.className += ' alive';
-                }
+                if (i == 2 && j == 2 || i == 1 && j == 1)
+                    node.isAlive = true;
 
-                grid.push(cell);
-                nextGrid.push(cell);
+                grid.push(node);
                 count++;
             }
         }
 
-        grid.map(cell => {
-            game.appendChild(cell);
+        nextGrid = JSON.parse(JSON.stringify(grid));
+        displayGrid(grid);
+    }
+
+    function displayGrid(arr) {
+
+        game.innerHTML = '';
+
+        arr.map(node => {
+
+            let cell = document.createElement('div');
+
+            if (node.isAlive) 
+                cell.className = 'cell alive';
+            else
+                cell.className = 'cell';
+
+            cell.dataset.posX = node.pos.x;
+            cell.dataset.posY = node.pos.y;
+            cell.dataset.index = node.index;
+
+            game.append(cell);
         });
     }
 
@@ -61,172 +82,169 @@ document.addEventListener('DOMContentLoaded', function loaded () {
             firstRow = true;
         if (cell >= matrix.width * matrix.height - matrix.width)
             lastRow = true;
-        if (cell % 5 == 0)
+        if (cell % matrix.width == 0)
             firstCol = true;
-        if ((cell + 1) % 5 == 0)
+        if ((cell + 1) % matrix.width == 0)
             lastCol = true;
-
-        // console.log({firstRow, lastRow, firstCol, lastCol});
 
         if (firstRow) {
 
             if (firstCol) {
                 // x: 0, y:0
-                if (/alive/gi.test(grid[right].className)) {
+                if (grid[right].isAlive) {
                     neighbours++;
                 }
-                if (/alive/gi.test(grid[botRight].className)) {
+                if (grid[botRight].isAlive) {
                     neighbours++;
                 }
             } else if (lastCol) {
                 //x:4, y:0
-                if (/alive/gi.test(grid[left].className)) {
+                if (grid[left].isAlive) {
                     neighbours++;
                 }
-                if (/alive/gi.test(grid[botLeft].className)) {
+                if (grid[botLeft].isAlive) {
                     neighbours++;
                 }
             } else {
 
-                if (/alive/gi.test(grid[right].className)) {
+                if (grid[right].isAlive) {
                     neighbours++;
                 }
-                if (/alive/gi.test(grid[botRight].className)) {
+                if (grid[botRight].isAlive) {
                     neighbours++;
                 }
-                if (/alive/gi.test(grid[left].className)) {
+                if (grid[left].isAlive) {
                     neighbours++;
                 }
-                if (/alive/gi.test(grid[botLeft].className)) {
+                if (grid[botLeft].isAlive) {
                     neighbours++;
                 }
             }
 
-            if (/alive/gi.test(grid[bot].className)) {
+            if (grid[bot].isAlive) {
                 neighbours++;
             }
         } else if (lastRow) {
 
             if (firstCol) {
 
-                if (/alive/gi.test(grid[right].className)) {
+                if (grid[right].isAlive) {
                     neighbours++;
                 }
-                if (/alive/gi.test(grid[topRight].className)) {
+                if (grid[topRight].isAlive) {
                     neighbours++;
                 }
             } else if (lastCol) {
 
-                if (/alive/gi.test(grid[left].className)) {
+                if (grid[left].isAlive) {
                     neighbours++;
                 }
-                if (/alive/gi.test(grid[topLeft].className)) {
+                if (grid[topLeft].isAlive) {
                     neighbours++;
                 }
             } else {
 
-                if (/alive/gi.test(grid[right].className)) {
+                if (grid[right].isAlive) {
                     neighbours++;
                 }
-                if (/alive/gi.test(grid[topRight].className)) {
+                if (grid[topRight].isAlive) {
                     neighbours++;
                 }
-                if (/alive/gi.test(grid[left].className)) {
+                if (grid[left].isAlive) {
                     neighbours++;
                 }
-                if (/alive/gi.test(grid[topLeft].className)) {
+                if (grid[topLeft].isAlive) {
                     neighbours++;
                 }
             }
 
-            if (/alive/gi.test(grid[top].className)) {
+            if (grid[top].isAlive) {
                 neighbours++;
             }
         } else if (firstCol) {
 
-            if (/alive/gi.test(grid[top].className)) {
+            if (grid[top].isAlive) {
                 neighbours++;
             }
-            if (/alive/gi.test(grid[topRight].className)) {
+            if (grid[topRight].isAlive) {
                 neighbours++;
             }
-            if (/alive/gi.test(grid[right].className)) {
+            if (grid[right].isAlive) {
                 neighbours++;
             }
-            if (/alive/gi.test(grid[botRight].className)) {
+            if (grid[botRight].isAlive) {
                 neighbours++;
             }
-            if (/alive/gi.test(grid[bot].className)) {
+            if (grid[bot].isAlive) {
                 neighbours++;
             }
         } else if (lastCol) {
 
-            if (/alive/gi.test(grid[topLeft].className)) {
+            if (grid[topLeft].isAlive) {
                 neighbours++;
             }
-            if (/alive/gi.test(grid[top].className)) {
+            if (grid[top].isAlive) {
                 neighbours++;
             }
-            if (/alive/gi.test(grid[bot].className)) {
+            if (grid[bot].isAlive) {
                 neighbours++;
             }
-            if (/alive/gi.test(grid[botLeft].className)) {
+            if (grid[botLeft].isAlive) {
                 neighbours++;
             }
-            if (/alive/gi.test(grid[left].className)) {
+            if (grid[left].isAlive) {
                 neighbours++;
             }
         } else {
 
-            if (/alive/gi.test(grid[topLeft].className)) {
+            if (grid[topLeft].isAlive) {
                 neighbours++;
             }
-            if (/alive/gi.test(grid[top].className)) {
+            if (grid[top].isAlive) {
                 neighbours++;
             }
-            if (/alive/gi.test(grid[topRight].className)) {
+            if (grid[topRight].isAlive) {
                 neighbours++;
             }
-            if (/alive/gi.test(grid[right].className)) {
+            if (grid[right].isAlive) {
                 neighbours++;
             }
-            if (/alive/gi.test(grid[botRight].className)) {
+            if (grid[botRight].isAlive) {
                 neighbours++;
             }
-            if (/alive/gi.test(grid[bot].className)) {
+            if (grid[bot].isAlive) {
                 neighbours++;
             }
-            if (/alive/gi.test(grid[botLeft].className)) {
+            if (grid[botLeft].isAlive) {
                 neighbours++;
             }
-            if (/alive/gi.test(grid[left].className)) {
+            if (grid[left].isAlive) {
                 neighbours++;
-            } 
+            }
         }
 
         return neighbours;
     }
 
-    function updateCell(cell, index, neighbours) {
+    function updateCell(cell, neighbours) {
 
         //RULES of Conway's Game Of Life
 
-        var status = false //dead;
-
-        if (/alive/gi.test(cell.className)) {
-            status = true;
-        }
-
-        if (status) {
+        if (cell.isAlive) {
 
             if (neighbours < 2 || neighbours > 3) {
                 
-                nextGrid[index].className = 'cell';
+                // console.log(cell.index);
+                // console.log('dies');
+                nextGrid[cell.index].isAlive = false;
             }
         } else {
 
             if (neighbours == 3) {
-                nextGrid[index].className += ' alive';
+
+                // console.log(cell.index);
+                // console.log('lives');
+                nextGrid[cell.index].isAlive = true;
             }
         }
     }
@@ -241,17 +259,35 @@ document.addEventListener('DOMContentLoaded', function loaded () {
             e.target.className += ' alive';
         }
 
-        console.log(nextGrid);
+        let cells = Array.from(document.querySelectorAll('.cell'));
+
+        cells.map(cell => {
+
+            let index = cell.dataset.index;
+
+            if (/alive/gi.test(cell.className))
+                grid[index].isAlive = true;
+            else
+                grid[index].isAlive = false;
+        });
+
+        nextGrid = JSON.parse(JSON.stringify(grid));
     }
 
     function onClickNextGen () {
 
-        grid.map((cell, index) => {
+        grid.map(cell => {
 
-            let neighbours = countNeighbours(index);
+            let neighbours = countNeighbours(cell.index);
 
-            updateCell(cell, index, neighbours);
+            updateCell(cell, neighbours);
         });
+
+        displayGrid(nextGrid);
+        grid = JSON.parse(JSON.stringify(nextGrid));
+
+        // console.log(grid);
+        // console.log(nextGrid);
     }
 
     next.addEventListener('click', onClickNextGen);
@@ -260,8 +296,6 @@ document.addEventListener('DOMContentLoaded', function loaded () {
         if (/cell/gi.test(e.target.className)) {
             changeCellStatus(e);
         }
-
-        console.log(nextGrid);
     });
 
     initializeGrid();
