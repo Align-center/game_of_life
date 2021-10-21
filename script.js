@@ -2,7 +2,6 @@
 
 document.addEventListener('DOMContentLoaded', function loaded () {
 
-    
     var matrix = {
         width: 50,
         height: 50
@@ -22,10 +21,6 @@ document.addEventListener('DOMContentLoaded', function loaded () {
 
                 let node = {
                     index: count,
-                    pos: {
-                        x: i,
-                        y: j
-                    },
                     isAlive: false
                 };
 
@@ -234,16 +229,12 @@ document.addEventListener('DOMContentLoaded', function loaded () {
 
             if (neighbours < 2 || neighbours > 3) {
                 
-                // console.log(cell.index);
-                // console.log('dies');
                 nextGrid[cell.index].isAlive = false;
             }
         } else {
 
             if (neighbours == 3) {
 
-                // console.log(cell.index);
-                // console.log('lives');
                 nextGrid[cell.index].isAlive = true;
             }
         }
@@ -285,9 +276,6 @@ document.addEventListener('DOMContentLoaded', function loaded () {
 
         displayGrid(nextGrid);
         grid = JSON.parse(JSON.stringify(nextGrid));
-
-        // console.log(grid);
-        // console.log(nextGrid);
     }
 
     next.addEventListener('click', onClickNextGen);
